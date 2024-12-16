@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Content Loading</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        #itemContainer {
+            margin: 20px auto;
+            padding: 0;
+            max-width: 300px;
+            list-style: none;
+        }
+        li {
+            background-color: #f1f1f1;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        #noMoreMessage {
+            color: green;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dynamic Content Loading</h1>
+    <ul id="itemContainer"></ul>
+    <button id="loadMoreBtn" onclick="loadMore()">Load More</button>
+    <p id="noMoreMessage" style="display: none;">No more items to load</p>
+
+    <script>
+        const items = Array.from({ length: 30 }, (_, i) => `Item ${i + 1}`); 
+        const itemsPerPage = 5;
+        let currentIndex = 0;
+
+        const itemContainer = document.getElementById('itemContainer');
+        const loadMoreBtn = document.getElementById('loadMoreBtn');
+        const noMoreMessage = document.getElementById('noMoreMessage');
+
+        function loadMore() {
+            const nextItems = items.slice(currentIndex, currentIndex + itemsPerPage);
+            nextItems.forEach(item => {
+                const li = document.createElement('li');
+                li.textContent = item;
+                itemContainer.appendChild(li);
+            });
+            currentIndex += itemsPerPage;
+
+            if (currentIndex >= items.length) {
+                loadMoreBtn.disabled = true;
+                noMoreMessage.style.display = 'block'; 
+            }
+        }
+
+        loadMore();
+    </script>
+</body>
+</html>
